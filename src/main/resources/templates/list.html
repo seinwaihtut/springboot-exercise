@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Student List</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+<body class="container">
+    <header class="align-self-start">HEADER PLACEHOLDER</header>
+    <a th:href="@{/register}" class="btn btn-primary">Register</a>
+    <h2>Student List</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">No.</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Address</th>
+                <th scope="col">Township</th>
+                <th scope="col">State</th>
+                <th scope="col">Date of Birth</th>
+                <th scope="col">Active</th>
+                <th scope="col">School Fee</th>
+                <th scope="col">Registration Date</th>
+                <th scope="col">Password</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:if="${students.empty}">
+                <td colspan="2"> No Registered Students </td>
+            </tr>
+            <tr th:each="student, status : ${students}">
+                <th scope="row"><span th:text="${status.index+1}">" "</span></th>
+                <td><span th:text="${student.name}">" "</span></td>
+                <td><span th:text="${student.email}">" "</span></td>
+                <td><span th:text="${student.phone}">" "</span></td>
+                <td><span th:text="${student.address}">" "</span></td>
+                <td><span th:text="${student.township}">" "</span></td>
+                <td><span th:text="${student.state}">" "</span></td>
+                <td><span th:text="${#dates.format(student?.dob, 'yyyy-MM-dd')}">" "</span></td>
+                <td><span th:text="${student.getActiveStatus}">" "</span></td>
+                <td><span th:text="${student.schoolFee}">" "</span></td>
+                <td><span th:text="${#dates.format(student?.registrationDate, 'yyyy-MM-dd')}">" "</span></td>
+                <td><span th:text="${student.password}">" "</span></td>
+                <td>
+                    <a th:href="@{/student/{id}/edit(id=${student?.id})}" class="btn btn-primary">Edit</a>
+                    <a th:href="@{/student/{id}/delete(id=${student?.id})}" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <footer class="align-self-end">FOOTER PLACEHOLDER</footer>
+</body>
+</html>
