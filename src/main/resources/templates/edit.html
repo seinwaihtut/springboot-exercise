@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Edit Student</title>
+    <title th:text="${submitAction}">Edit Student</title>
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{/css/style.css}" rel="stylesheet">
     <script th:src="@{/js/bootstrap.min.js}"></script>
@@ -16,20 +16,22 @@
     <header>HEADER PLACEHOLDER</header>
     <div class="container text-center">
     <div class="w-50 text-start">
-    <h2 th:text="${action}">Student</h2>
-    <form th:action="@{${route}}" method="POST">
+    <h2 th:text="${submitAction}">Student</h2>
+    <form th:action="@{${route}}" method="POST" th:object="${student}">
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
             <input type="text" name="name" class="form-control" id="name" th:value="${student?.name}" placeholder="Name">
+            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></p>
         </div>
         <div class="mb-3">
             <label for="phone" class="form-label">Phone</label>
-            <input type="text" name="phone" class="form-control" id="phone" th:value="${student?.phone}" placeholder="Phone">
+            <input type="text" name="phone" class="form-control" id="phone" th:value="${student?.phone}" placeholder="+959-123-456-789">
+            <p th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="text-danger"></p>
         </div>
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
             <input type="email" class="form-control" name="email" id="email" placeholder="Email" th:value="${student?.email}">
-
+            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></p>
         </div>
         <div class="mb-3">
             <label for="address" class="form-label">Address</label>
@@ -66,7 +68,8 @@
             <input type="text" name="schoolFee" class="form-control" id="schoolFee" th:value="${student?.schoolFee}" placeholder="School Fee">
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="activeFlag" name="activeFlag"  th:checked="*{student?.activeFlag}">
+<!--            <input class="form-check-input" type="checkbox" value="" id="activeFlag" name="activeFlag"  th:checked="*{student?.activeFlag}">-->
+            <input type="checkbox" th:field="*{activeFlag}" id="activeFlag" class="form-check-input"/>
             <label class="form-check-label" for="activeFlag">
                 Active Flag
             </label>
@@ -75,7 +78,7 @@
             <label for="password" class="form-label">Password</label>
             <input type="text" name="password" class="form-control" id="password" th:value="${student?.password}" placeholder="Password">
         </div>
-        <button type="submit" class="btn btn-primary" th:text="${action}">Create</button>
+        <input type="submit" class="btn btn-primary" th:value="${submitAction}">
         <a th:href="@{/list}" rel="sign up" class="btn btn-secondary">Cancel</a>
     </form>
     </div>

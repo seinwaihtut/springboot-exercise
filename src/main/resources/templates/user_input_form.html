@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/jquery.js}"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css" integrity="sha512-34s5cpvaNG3BknEWSuOncX28vz97bRI59UnVtEEpFX536A7BtZSJHsDyFoCl8S7Dt2TPzcrCEoHBGeM4SUBDBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js" integrity="sha512-LsnSViqQyaXpD4mBBdRYeP6sRwJiJveh2ZIbW41EBrNmKxgr/LFZIiWT6yr+nycvhvauz8c2nYMhrP80YhG7Cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script th:src="@{/js/common.js}"></script>
+</head>
+<body>
+<header>HEADER PLACEHOLDER</header>
+<div class="container text-center">
+    <div class="w-50 text-start">
+        <h2>User Register</h2>
+        <form th:action="@{/user/register}" method="POST" th:object="${user}">
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" name="username" class="form-control" id="username" th:value="${user?.username}" placeholder="Username">
+                <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-danger"></p>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" name="email" id="email" placeholder="Email" th:value="${user?.email}">
+                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></p>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="text" name="password" class="form-control" id="password" th:value="${user?.password}" placeholder="Password">
+            </div>
+            <div class="mb-3">
+                <label for="role" class="form-label">Role</label>
+                <select class="form-select" name="role" id="role" th:value="${user?.role}">
+                    <option selected>Role</option>
+                    <option value="1">Admin</option>
+                    <option value="2">Teacher</option>
+                    <option value="3">Student</option>
+                </select>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Register">
+            <a th:href="@{/login}" rel="sign up" class="btn btn-secondary">Login</a>
+        </form>
+    </div>
+</div>
+<footer>FOOTER PLACEHOLDER</footer>
+</body>
+</html>

@@ -2,9 +2,11 @@ package com.springboot.exercise.controllers;
 
 import com.springboot.exercise.models.Student;
 import com.springboot.exercise.services.StudentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -15,27 +17,34 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @GetMapping("/index")
-    public String home() {
-        return "index";
-    }
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
+//    @GetMapping("/index")
+//    public String home() {
+//        return "index";
+//    }
+//    @GetMapping("/login")
+//    public String login() {
+//        return "login";
+//    }
     @GetMapping("/register")
     public String register(Model model) {
-        model.addAttribute("action", "Register");
+        model.addAttribute("submitAction", "Register");
         model.addAttribute("route", "register/save");
-        return "edit";
 
+        Student std = new Student();
+        model.addAttribute("student", std);
+        return "edit";
     }
 
     @PostMapping("/register/save")
-    public String studentSave(@ModelAttribute Student student, Model model){
+    public String studentSave(@Valid @ModelAttribute Student student, BindingResult result,  Model model){
+        if(result.hasErrors()){
+            model.addAttribute("submitAction", "Register");
+            model.addAttribute("student", student);
+            return "edit";
+        }
+
         Student std = studentService.addStudent(student);
 
-        System.out.println(std.toString());
         return "redirect:/list";
     }
 //    @PostMapping("/register/save")
@@ -62,15 +71,22 @@ public class StudentController {
 
     @GetMapping("/student/{id}/edit")
     public String studentEdit(@PathVariable(value = "id") String id, Model model) {
-        model.addAttribute("action", "Update");
+        model.addAttribute("submitAction", "Update");
         model.addAttribute("id", id);
-        model.addAttribute("route", "/student/" + id + "/edit");
+
         model.addAttribute("student", studentService.getStudent(id));
         return "edit";
     }
 
     @PostMapping("/student/{id}/edit")
-    public String studentUpdate(@PathVariable(value = "id") String id, @ModelAttribute Student student) {
+    public String studentUpdate(@PathVariable(value = "id") String id, @Valid @ModelAttribute Student student, BindingResult result,  Model model) {
+        if(result.hasErrors()){
+            model.addAttribute("submitAction", "Update");
+            model.addAttribute("id", id);
+            model.addAttribute("student", student);
+            return "edit";
+        }
+
         studentService.updateStudent(id, student);
         return "redirect:/list";
     }
