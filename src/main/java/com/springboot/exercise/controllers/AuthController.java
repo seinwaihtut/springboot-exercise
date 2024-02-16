@@ -41,8 +41,6 @@ public class AuthController {
     @GetMapping("/login")
     public String login(Model model) {
 
-        User user = new User();
-        model.addAttribute("user", user);
         return "user_login";
     }
 

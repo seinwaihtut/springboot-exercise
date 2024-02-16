@@ -37,7 +37,7 @@ public class SecurityConfig {
                             ).permitAll();
                     authConfig.requestMatchers(HttpMethod.GET, "/admin").hasRole("ADMIN");
                     authConfig.requestMatchers(HttpMethod.GET, "/student").hasRole("STUDENT");
-                    authConfig.requestMatchers(HttpMethod.GET, "/user").hasAnyRole("USER", "ADMIn");
+                    authConfig.requestMatchers(HttpMethod.GET, "/user").hasAnyRole("USER", "ADMIN");
                     authConfig.requestMatchers(HttpMethod.GET, "/role").hasAnyRole("ADMIN", "STUDENT");
                 })
                 .formLogin(login -> {
