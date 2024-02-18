@@ -23,13 +23,16 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
+    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     UserRespository userRespository;
     @Override
     public User create(User user) {
+        System.out.println(user.getPassword());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        System.out.println(user.getPassword());
         userRespository.save(user);
         return user;
     }
@@ -41,6 +44,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("inside usr impl");
+        System.out.println(username);
         User user = userRespository.findByEmail(username);
         if (user != null) {
 
@@ -51,6 +56,7 @@ public class UserServiceImpl implements UserService {
                     getGrantedAuthorities(user)
             );
         } else {
+            System.out.println("usr not found");
             throw new UsernameNotFoundException("Invalid username or password");
         }
     }

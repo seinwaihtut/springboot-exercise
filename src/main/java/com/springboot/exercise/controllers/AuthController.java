@@ -34,13 +34,12 @@ public class AuthController {
 
         User usr = userService.create(user);
 
-        return "redirect:/user/login";
+        return "redirect:/login";
     }
 
 //    @GetMapping("/user/login")
     @GetMapping("/login")
     public String login(Model model) {
-
         return "user_login";
     }
 

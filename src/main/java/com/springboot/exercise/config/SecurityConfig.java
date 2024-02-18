@@ -19,15 +19,16 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    UserDetailsService myUserDetailsService() {
-        return new UserServiceImpl();
-    }
+//    @Bean
+//    UserDetailsService myUserDetailsService() {
+//        return new UserServiceImpl();
+//    }
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authConfig -> {
                     authConfig.requestMatchers(HttpMethod.GET, "/",
+                            "/user/register",
                             "/login",
                             "/error",
                             "/login-error",
@@ -35,10 +36,13 @@ public class SecurityConfig {
                             "/css/**",
                             "/js/**"
                             ).permitAll();
-                    authConfig.requestMatchers(HttpMethod.GET, "/admin").hasRole("ADMIN");
-                    authConfig.requestMatchers(HttpMethod.GET, "/student").hasRole("STUDENT");
-                    authConfig.requestMatchers(HttpMethod.GET, "/user").hasAnyRole("USER", "ADMIN");
-                    authConfig.requestMatchers(HttpMethod.GET, "/role").hasAnyRole("ADMIN", "STUDENT");
+                    authConfig.requestMatchers(HttpMethod.POST,
+                            "/user/register"
+                            ).permitAll();
+//                    authConfig.requestMatchers(HttpMethod.GET, "/admin").hasRole("ADMIN");
+//                    authConfig.requestMatchers(HttpMethod.GET, "/student").hasRole("STUDENT");
+//                    authConfig.requestMatchers(HttpMethod.GET, "/user").hasAnyRole("USER", "ADMIN");
+//                    authConfig.requestMatchers(HttpMethod.GET, "/role").hasAnyRole("ADMIN", "STUDENT");
                 })
                 .formLogin(login -> {
                     login.loginPage("/login");
@@ -47,10 +51,12 @@ public class SecurityConfig {
                 })
                 .logout(logout -> {
                     logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
-                    logout.logoutSuccessUrl("/");
+                    logout.logoutSuccessUrl("/login");
                     logout.deleteCookies("JSESSIONID");
                     logout.invalidateHttpSession(true);
-                });
+                })
+
+        ;
         return http.build();
     }
 }
