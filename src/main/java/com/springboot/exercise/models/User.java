@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Data
 public class User implements Serializable {
 
-    private static final long serializableUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

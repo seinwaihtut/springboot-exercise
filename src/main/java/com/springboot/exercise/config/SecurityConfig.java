@@ -39,8 +39,8 @@ public class SecurityConfig {
                     authConfig.requestMatchers(HttpMethod.POST,
                             "/user/register"
                             ).permitAll();
-//                    authConfig.requestMatchers(HttpMethod.GET, "/admin").hasRole("ADMIN");
-//                    authConfig.requestMatchers(HttpMethod.GET, "/student").hasRole("STUDENT");
+                    authConfig.requestMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN");
+                    authConfig.requestMatchers(HttpMethod.GET, "/student/**").hasRole("STUDENT");
 //                    authConfig.requestMatchers(HttpMethod.GET, "/user").hasAnyRole("USER", "ADMIN");
 //                    authConfig.requestMatchers(HttpMethod.GET, "/role").hasAnyRole("ADMIN", "STUDENT");
                 })
@@ -55,7 +55,6 @@ public class SecurityConfig {
                     logout.deleteCookies("JSESSIONID");
                     logout.invalidateHttpSession(true);
                 })
-
         ;
         return http.build();
     }

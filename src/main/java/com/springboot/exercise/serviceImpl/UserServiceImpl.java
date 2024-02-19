@@ -44,11 +44,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("inside usr impl");
-        System.out.println(username);
         User user = userRespository.findByEmail(username);
         if (user != null) {
-
             var result = getGrantedAuthorities(user);
             return new org.springframework.security.core.userdetails.User(
                     user.getEmail(),
@@ -56,11 +53,9 @@ public class UserServiceImpl implements UserService {
                     getGrantedAuthorities(user)
             );
         } else {
-            System.out.println("usr not found");
             throw new UsernameNotFoundException("Invalid username or password");
         }
     }
-
 
     private List<GrantedAuthority> getGrantedAuthorities(User user) {
         Role role = Optional.ofNullable(user.getRole()).orElse(new Role());

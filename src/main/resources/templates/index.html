@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -47,6 +48,28 @@
         <a class="btn btn-lg btn-primary" href="/docs/5.3/components/navbar/" role="button">View navbar docs &raquo;</a>
     </div>
 </main>
+
+<div class="container">
+    <div sec:authorize="isAnonymous()">
+        <div class="row">
+            <h1 class="text-center">Please Login to Our System</h1>
+        </div>
+    </div>
+
+    <div sec:authorize="hasAuthority('USER')">Text visible to user.
+
+
+    </div>
+
+    <div sec:authorize="hasAuthority('ADMIN')">Text visible to admin.
+
+
+    </div>
+
+    <div sec:authorize="isAuthenticated()">
+        Text visible only to authenticated users.
+    </div>
+</div>
 
 </body>
 </html>
